@@ -3,14 +3,25 @@ const sass = require("gulp-sass");
 
 sass.compiler = require("node-sass");
 
-gulp.task("default",function(){
-	return(
-		gulp
-		   .src("css/style.sass")
-		   .pipe(sass())
-		   ,pipe(gulp.dest("css"))
-		)
-})
+gulp.task("default", function() {
+  // style.scssファイルを取得
+  return gulp.watch("css/style.scss",function(){
+  	return(
+  		gulp.src("css/style.scss")
+  		.pipe(
+  			sass({
+  				outputStyle:"expanded"
+  			})
+  			  // Sassのコンパイルエラーを表示
+            // (これがないと自動的に止まってしまう)
+  			  .on("error",sass.logError)
+  		)
+  		  // cssフォルダー以下に保存
+  		.pipe(gulp.dest("css"))
+  	);
+  })
+    
+});
 
 
 // gulp.task('sass', function () {
